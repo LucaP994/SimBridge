@@ -1,21 +1,22 @@
 <ion-content>
-  <div class="box">
-    <h2>Enter your IP address</h2>
-    <div class="ip-box">
-      <input id="ip" type="text" placeholder="Enter IP..." [(ngModel)]="ip" class="ip-input">
-      <p>:</p>
-      <input id="port" type="text" placeholder="Enter port..." [(ngModel)]="port" class="port-input">
+  <div class="container">
+    <div class="box">
+      <h2>Enter your IP address</h2>
+      <div class="ip-box">
+        <input id="ip" type="text" placeholder="Enter IP..." [(ngModel)]="ip" class="ip-input">
+        <p>:</p>
+        <input id="port" type="text" placeholder="Enter port..." [(ngModel)]="port" class="port-input">
+      </div>
+      <button (click)="goToMCDU()" class="button button-menu">Go to MCDU</button>
+      <button (click)="openChecklist()" class="button button-menu">Open Check List</button>
+      <button (click)="openGuide()" class="button button-menu">Open Instruments Guide</button>
     </div>
-    <button (click)="goToMCDU()" class="button button-menu">Go to MCDU</button>
-    <button (click)="openChecklist()" class="button button-menu">Open Check List</button>
-    <button (click)="openGuide()" class="button button-menu">Open Instruments Guide</button>
+    <div class="footer">
+      <p>Developed by <span>Luca Puglisi</span></p>
+    </div>
+    <div class="pdf-viewer">
+      <button class="close-button" (click)="closeViewer()">X</button>
+      <pdf-viewer [src]="url" [render-text]="true" [original-size]="false"></pdf-viewer>
+    </div>
   </div>
-  <div class="footer">
-    <p>Developed by <span>Luca Puglisi</span></p>
-  </div>
-  <div class="pdf-viewer">
-    <button class="close-button" (click)="closeViewer()">X</button>
-    <pdf-viewer [src]="url" [render-text]="true" [original-size]="false"></pdf-viewer>
-  </div>
-
 </ion-content>
