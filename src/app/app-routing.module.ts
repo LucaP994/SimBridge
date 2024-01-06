@@ -11,6 +11,10 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'mcdu',
+    loadChildren: () => import('./mcdu/mcdu.module').then( m => m.MCDUPageModule)
+  },
 ];
 
 @NgModule({

@@ -1,3 +1,25 @@
 <ion-app>
+  <ion-header [translucent]="true">
+    <ion-toolbar>
+      <div class="header">
+        <img src="../assets/icon/icon.ico" alt="" class="logo">
+        <ion-title>
+          SimBridge MCDU
+        </ion-title>
+        <div class="menu-button" (click)="openMenu()">
+          <div class="menu-line"></div>
+          <div class="menu-line"></div>
+          <div class="menu-line"></div>
+        </div>
+      </div>
+    </ion-toolbar>
+  </ion-header>
   <ion-router-outlet></ion-router-outlet>
+  <div class="side-menu">
+    <div class="link-box">
+      <p (click)="openLink('https://docs.flybywiresim.com/fbw-a32nx/')">About FlyByWire</p>
+      <p (click)="openLink('https://docs.flybywiresim.com/simbridge/')">About SimBridge</p>
+      <p (click)="openLink('https://docs.flybywiresim.com/simbridge/simbridge-feature-guides/remote-displays/remote-mcdu/')">MCDU Tutorial</p>
+    </div>
+  </div>
 </ion-app>
