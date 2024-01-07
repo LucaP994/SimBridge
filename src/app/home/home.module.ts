@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
-
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { HomePageRoutingModule } from './home-routing.module';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { LoaderComponent } from '../components/loader/loader.component';
 
 @NgModule({
   imports: [
@@ -13,9 +14,10 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
-    PdfViewerModule
+    PdfViewerModule,
+    MatProgressSpinnerModule
   ],
-  declarations: [HomePage],
+  declarations: [HomePage, LoaderComponent],
 
 })
 export class HomePageModule {}

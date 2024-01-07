@@ -8,6 +8,7 @@
         <input id="port" type="text" placeholder="Enter port..." [(ngModel)]="port" class="port-input">
       </div>
       <button (click)="goToMCDU()" class="button button-menu">Go to MCDU</button>
+      <button (click)="pingServer(2)" class="button button-menu">Search Server</button>
       <button (click)="openChecklist()" class="button button-menu">Open Check List</button>
       <button (click)="openGuide()" class="button button-menu">Open Instruments Guide</button>
     </div>
@@ -19,4 +20,5 @@
       <pdf-viewer [src]="url" [render-text]="true" [original-size]="false"></pdf-viewer>
     </div>
   </div>
+  <app-loader *ngIf="searching"></app-loader>
 </ion-content>
