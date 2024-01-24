@@ -31,7 +31,7 @@ export class HomePage {
     private gestureCtrl: GestureController,
     private cdRef: ChangeDetectorRef,
     private el: ElementRef,
-    private platfom: Platform
+    private platform: Platform
   ) { }
 
   ngAfterViewInit() {
@@ -45,15 +45,18 @@ export class HomePage {
         this.searching = false;
       }
     })
-    const gesture = this.gestureCtrl.create({
-      el: document.querySelector('.container'),
-      onStart: () => this.onStart(),
-      onMove: (detail) => this.onMove(detail),
-      onEnd: () => this.onEnd(),
-      gestureName: 'example',
-    });
+    // const gesture = this.gestureCtrl.create({
+    //   el: document.querySelector('.container'),
+    //   onStart: () => this.onStart(),
+    //   onMove: (detail) => this.onMove(detail),
+    //   onEnd: () => this.onEnd(),
+    //   gestureName: 'example',
+    // });
 
-    gesture.enable();
+    // gesture.enable();
+    this.platform.backButton.subscribeWithPriority(10, () => {
+      this.closeViewer();
+    });
   }
 
   public pingServer(ip: number) {
@@ -122,7 +125,7 @@ export class HomePage {
         break;
     }
     let viewer: HTMLElement = document.querySelector(".pdf-viewer")!;
-    viewer.style.top = "3.5rem";
+    viewer.style.top = "0";
   }
   private checkIp(ip: string): boolean {
     let valid: boolean = false;
@@ -138,13 +141,13 @@ export class HomePage {
     viewer.style.top = "100%";
   }
 
-  private onStart() {
-    this.isCardActive = true;
-    this.cdRef.detectChanges();
-  }
+  // private onStart() {
+  //   this.isCardActive = true;
+  //   this.cdRef.detectChanges();
+  // }
 
-  private onMove(detail: GestureDetail) {
-    const { type, currentX, currentY, deltaX, deltaY, startX, startY, velocityX } = detail;
+  // private onMove(detail: GestureDetail) {
+  //   const { type, currentX, currentY, deltaX, deltaY, startX, startY, velocityX } = detail;
     // this.currentX = currentX;
     // this.currentY = currentY;
     // this.deltaX = deltaX;
@@ -160,14 +163,14 @@ export class HomePage {
     //   <div>Delta X: ${deltaX}</div>
     //   <div>Delta Y: ${deltaY}</div>
     //   <div>Velocity X: ${velocityX}</div>`;
-    let startXPerc = Math.round((startX / this.platfom.width()) * 100)
-    if ((startXPerc < 15 && deltaX > 100) || (startXPerc > 85 && deltaX < -100)) {
-      this.closeViewer()
-    }
-  }
+  //   let startXPerc = Math.round((startX / this.platform.width()) * 100)
+  //   if ((startXPerc < 15 && deltaX > 100) || (startXPerc > 85 && deltaX < -100)) {
+  //     this.closeViewer()
+  //   }
+  // }
 
-  private onEnd() {
-    this.isCardActive = false;
-    this.cdRef.detectChanges();
-  }
+  // private onEnd() {
+  //   this.isCardActive = false;
+  //   this.cdRef.detectChanges();
+  // }
 }
