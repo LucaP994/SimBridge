@@ -13,6 +13,7 @@ export class HomePage {
   public ip = "";
   public port = "";
   public url = "";
+  public docName = "";
   private found: boolean = false;
   public searching: boolean = false;
   constructor(
@@ -27,8 +28,8 @@ export class HomePage {
       this.ip = ip[0];
       this.port = ip[1];
     }
-    this.httpInterceptorService.stopSearch.subscribe(res =>{
-      if(res){
+    this.httpInterceptorService.stopSearch.subscribe(res => {
+      if (res) {
         this.searching = false;
       }
     })
@@ -53,14 +54,14 @@ export class HomePage {
             this.searching = false
           },
           error: (err) => {
-            if(this.searching){
+            if (this.searching) {
               this.pingServer(ip + 1)
               console.log("Server found err: " + this.found)
               console.log(err)
             }
           }
         })
-    }else{
+    } else {
       alert("No server found on your LAN on port 8380. Please check your client.")
     }
   }
@@ -83,15 +84,25 @@ export class HomePage {
       alert("Please, check yuour IP address!")
     }
   }
-  public openChecklist() {
-    this.url = "../../assets/documents/checklist.pdf";
+  public openDocument(file: string) {
+    this.url = `../../assets/documents/${file}.pdf`;
+    switch (file) {
+      case "checklist":
+        this.docName = "Checklist";
+        break;
+      case "sop":
+        this.docName = "SOP";
+        break;
+      case "instruments":
+        this.docName = "Instruments guide";
+        break;
+      default:
+        this.docName = "Document";
+        break;
+    }
     let viewer: HTMLElement = document.querySelector(".pdf-viewer")!;
     viewer.style.display = "block";
-  }
-  public openGuide() {
-    this.url = "../../assets/documents/instruments.pdf";
-    let viewer: HTMLElement = document.querySelector(".pdf-viewer")!;
-    viewer.style.display = "block";
+    viewer.style.top = "3.5rem";
   }
   private checkIp(ip: string): boolean {
     let valid: boolean = false;
@@ -104,6 +115,6 @@ export class HomePage {
   }
   public closeViewer() {
     let viewer: HTMLElement = document.querySelector(".pdf-viewer")!;
-    viewer.style.display = "none";
+    viewer.style.top = "100%";
   }
 }

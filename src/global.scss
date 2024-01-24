@@ -24,7 +24,8 @@
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
-.container{
+
+.container {
     height: 90%;
     background: url("./assets/background.jpg") #303032;
     background-blend-mode: multiply;
@@ -32,6 +33,7 @@
     background-size: cover;
     background-position-x: center;
 }
+
 .side-menu {
     display: flex;
     flex-direction: column;
@@ -47,27 +49,33 @@
     backdrop-filter: blur(10px);
     transition: all 0.5s;
 }
-.side-menu img{
+
+.side-menu img {
     width: 80%;
 }
-.side-menu div{
+
+.side-menu div {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-.credit p{
+
+.credit p {
     margin-top: 2rem;
     font-size: 0.75rem;
 }
-.credit span{
+
+.credit span {
     font-weight: bold;
 }
+
 .menu-line {
     background-color: #878787;
     width: 100%;
     height: 3px;
     position: absolute;
+    transition: all 0.2s;
 }
 
 .menu-button div:nth-child(1) {
@@ -177,16 +185,29 @@ button {
     padding: 1rem;
     border-radius: 0.5rem;
     background-color: #595959;
-    transition: all 0.3s;
+    box-shadow: inset 0 0 7px 0 #464646;
+    transition: all 0.2s;
 }
 
 .button-menu {
     margin-bottom: 1rem;
 }
 
-button:active {
-    background-color: #878787;
+.button-box {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
 }
+
+.button-box button {
+    width: 40%;
+}
+
+button:active {
+    box-shadow: inset 0 0 7px 10px #464646;
+}
+
 iframe {
     margin-top: 3.5rem;
     width: 100%;
@@ -194,12 +215,12 @@ iframe {
 }
 
 .pdf-viewer {
-    display: none;
-    top: 3rem;
+    top: 100%;
     position: absolute;
     width: 100%;
-    height: 90%;
+    height: 89.5%;
     background-color: #1f1f1f;
+    transition: all 0.5s;
 }
 
 .pdf-viewer pdf-viewer {
@@ -208,26 +229,22 @@ iframe {
 }
 
 .close-button {
-    position: absolute;
-    top: 0.5rem;
-    z-index: 100;
-    margin: 0.5rem;
+    position: fixed;
+    z-index: 1000;
     background-color: #c14141;
-    width: 2.5rem;
+    width: 100%;
     height: 2.5rem;
     padding: 0;
-    font-size: 1.5rem;
+    font-size: 1rem;
+    border-radius: 0;
     transition: all 0.3s;
 }
 
 .close-button:active {
-    width: 2.3rem;
-    height: 2.3rem;
-    font-size: 1.3rem;
-    background-color: #8b3838;
-
+    box-shadow: inset 0 0 7px 10px #8b3838;
 }
-.loader{
+
+.loader {
     position: absolute;
     top: 17rem;
     left: 50%;
@@ -243,10 +260,12 @@ iframe {
     justify-content: center;
     font-size: 1.2rem;
 }
-.loader mat-spinner{
+
+.loader mat-spinner {
     width: 40% !important;
     height: 40% !important;
 }
+
 .loader circle {
     stroke: #b3b3b3 !important;
 }

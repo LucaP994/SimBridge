@@ -19,7 +19,7 @@ export class AppComponent {
       menu.style.left = "0";
       menuBar1.style.transform = "rotate(45deg)"      
       menuBar1.style.top = "50%";
-      menuBar2.style.display = "none";
+      menuBar2.style.width = "0%";
       menuBar3.style.transform = "rotate(-45deg)"      
       menuBar3.style.top = "50%";
       this.open = true;
@@ -27,7 +27,7 @@ export class AppComponent {
       menu.style.left = "100%";
       menuBar1.style.transform = "rotate(0deg)"      
       menuBar1.style.top = "0";
-      menuBar2.style.display = "block";
+      menuBar2.style.width = "100%";
       menuBar3.style.transform = "rotate(0deg)"      
       menuBar3.style.top = "100%";
       this.open = false;
