@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content [scrollEvents]="true">
   <div class="container">
     <div class="box">
       <h2>Enter your IP address</h2>
@@ -19,8 +19,9 @@
       <p>Developed by <span>Luca Puglisi</span></p>
     </div>
     <div class="pdf-viewer">
-      <pdf-viewer [src]="url" [render-text]="true" [original-size]="false"></pdf-viewer>
+      <pdf-viewer id="reader" [src]="url" [render-text]="true" [original-size]="false" (ionScroll)="handleScroll($event)"></pdf-viewer>
       <button class="close-button" (click)="closeViewer()">Close {{docName}}</button>
+      <button class="scroll-top" (click)="scrollTop()"><i class="fas fa-arrow-up"></i></button>
     </div>
   </div>
   <app-loader *ngIf="searching"></app-loader>

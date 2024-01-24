@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef } from '@angular/core';
+import { GestureController, GestureDetail, Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
@@ -7,8 +8,27 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   private open: boolean = false;
+  isCardActive: boolean = false;
+  startXPerc: number;
 
-  constructor() { }
+  constructor(
+    private gestureCtrl: GestureController,
+    private cdRef: ChangeDetectorRef,
+    private el: ElementRef,
+    private platform: Platform
+  ) { }
+
+  ngAfterViewInit() {
+      const gesture = this.gestureCtrl.create({
+      el: document.querySelector('ion-app'),
+      onStart: () => this.onStart(),
+      onMove: (detail) => this.onMove(detail),
+      onEnd: (detail) => this.onEnd(detail),
+      gestureName: 'example',
+    });
+
+    gesture.enable();
+  }
 
   public openMenu() {
     let menu: HTMLElement = document.querySelector('.side-menu');
@@ -35,5 +55,26 @@ export class AppComponent {
   }
   public openLink(link: string): void {
     window.open(link);
+  }
+
+  private onStart() {
+    this.isCardActive = true;
+    this.cdRef.detectChanges();
+  }
+
+  private onMove(detail: GestureDetail) {
+    
+  }
+
+  private onEnd(detail: GestureDetail) {
+    this.isCardActive = false;
+    const { type, currentX, currentY, deltaX, deltaY, startX, startY, velocityX } = detail;
+
+    let startXPerc = Math.round((startX / this.platform.width()) * 100)
+
+    if ((startXPerc > 80 && deltaX < -100 && !this.open) || (startXPerc < 20 && deltaX > 100 && this.open)) {
+      this.openMenu();
+    }
+    this.cdRef.detectChanges();
   }
 }

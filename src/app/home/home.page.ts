@@ -5,6 +5,8 @@ import { Observable, interval } from 'rxjs';
 import { HttpInterceptorService } from '../services/http-interceptor.service';
 import type { GestureDetail } from '@ionic/angular';
 import { GestureController, IonCard, Platform } from '@ionic/angular';
+import { HostListener } from '@angular/core';
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -23,7 +25,7 @@ export class HomePage {
   public deltaY = 0;;
   public startX = 0;;
   public startY = 0;;
-  isCardActive = false;
+  private scrolling = false;
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -57,6 +59,8 @@ export class HomePage {
     this.platform.backButton.subscribeWithPriority(10, () => {
       this.closeViewer();
     });
+
+
   }
 
   public pingServer(ip: number) {
@@ -126,6 +130,31 @@ export class HomePage {
     }
     let viewer: HTMLElement = document.querySelector(".pdf-viewer")!;
     viewer.style.top = "0";
+    let reader = document.querySelector(".ng2-pdf-viewer-container");
+    reader.addEventListener("scroll", (event) => {
+      let scrollTopBtn: HTMLElement = document.querySelector(".scroll-top");
+      if (reader.scrollTop > 400) {
+        scrollTopBtn.style.left = "1rem";
+      } else {
+        scrollTopBtn.style.left = "-5rem";
+      }
+    })
+    reader.addEventListener("click", (event) => {
+      if (this.scrolling) {
+        this.scrolling = false;
+      }
+    })
+  }
+  public scrollTop() {
+    this.scrolling = true;
+    let reader = document.querySelector(".ng2-pdf-viewer-container");
+    let scroll = setInterval(() => {
+      reader.scrollTop = reader.scrollTop - 80;
+      if (reader.scrollTop == 0 || !this.scrolling) {
+        clearInterval(scroll);
+      }
+    }, 5)
+
   }
   private checkIp(ip: string): boolean {
     let valid: boolean = false;
@@ -137,40 +166,16 @@ export class HomePage {
     return valid;
   }
   public closeViewer() {
-    let viewer: HTMLElement = document.querySelector(".pdf-viewer")!;
+    let viewer: HTMLElement = document.querySelector(".pdf-viewer");
+    let reader = document.querySelector(".ng2-pdf-viewer-container");
+    setTimeout(() => {
+      reader.scrollTop = 0;
+    }, 300)
+    this.scrolling = false;
     viewer.style.top = "100%";
   }
-
-  // private onStart() {
-  //   this.isCardActive = true;
-  //   this.cdRef.detectChanges();
-  // }
-
-  // private onMove(detail: GestureDetail) {
-  //   const { type, currentX, currentY, deltaX, deltaY, startX, startY, velocityX } = detail;
-    // this.currentX = currentX;
-    // this.currentY = currentY;
-    // this.deltaX = deltaX;
-    // this.deltaY = deltaY;
-    // this.startX = startX;
-    // this.startY = startY;
-    // this.debug.nativeElement.innerHTML =`
-    //   <div>Type: ${type}</div>
-    //   <div>Start X: ${Math.round((startX/this.platfom.width())*100)}%</div>
-    //   <div>Start Y: ${Math.round((startY/this.platfom.height())*100)}%</div>
-    //   <div>Current X: ${Math.round((currentX/this.platfom.width())*100)}%</div>
-    //   <div>Current Y: ${Math.round((currentY/this.platfom.height())*100)}%</div>
-    //   <div>Delta X: ${deltaX}</div>
-    //   <div>Delta Y: ${deltaY}</div>
-    //   <div>Velocity X: ${velocityX}</div>`;
-  //   let startXPerc = Math.round((startX / this.platform.width()) * 100)
-  //   if ((startXPerc < 15 && deltaX > 100) || (startXPerc > 85 && deltaX < -100)) {
-  //     this.closeViewer()
-  //   }
-  // }
-
-  // private onEnd() {
-  //   this.isCardActive = false;
-  //   this.cdRef.detectChanges();
-  // }
+  public handleScroll(evt: any) {
+    console.log(evt)
+  }
+  
 }
