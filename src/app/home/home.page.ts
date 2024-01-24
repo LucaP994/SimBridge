@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, interval } from 'rxjs';
 import { HttpInterceptorService } from '../services/http-interceptor.service';
-
+import type { GestureDetail } from '@ionic/angular';
+import { GestureController, IonCard, Platform } from '@ionic/angular';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -16,10 +17,21 @@ export class HomePage {
   public docName = "";
   private found: boolean = false;
   public searching: boolean = false;
+  public currentX = 0;;
+  public currentY = 0;;
+  public deltaX = 0;;
+  public deltaY = 0;;
+  public startX = 0;;
+  public startY = 0;;
+  isCardActive = false;
   constructor(
     private router: Router,
     private http: HttpClient,
-    private httpInterceptorService: HttpInterceptorService
+    private httpInterceptorService: HttpInterceptorService,
+    private gestureCtrl: GestureController,
+    private cdRef: ChangeDetectorRef,
+    private el: ElementRef,
+    private platfom: Platform
   ) { }
 
   ngAfterViewInit() {
@@ -33,6 +45,15 @@ export class HomePage {
         this.searching = false;
       }
     })
+    const gesture = this.gestureCtrl.create({
+      el: document.querySelector('.container'),
+      onStart: () => this.onStart(),
+      onMove: (detail) => this.onMove(detail),
+      onEnd: () => this.onEnd(),
+      gestureName: 'example',
+    });
+
+    gesture.enable();
   }
 
   public pingServer(ip: number) {
@@ -115,5 +136,38 @@ export class HomePage {
   public closeViewer() {
     let viewer: HTMLElement = document.querySelector(".pdf-viewer")!;
     viewer.style.top = "100%";
+  }
+
+  private onStart() {
+    this.isCardActive = true;
+    this.cdRef.detectChanges();
+  }
+
+  private onMove(detail: GestureDetail) {
+    const { type, currentX, currentY, deltaX, deltaY, startX, startY, velocityX } = detail;
+    // this.currentX = currentX;
+    // this.currentY = currentY;
+    // this.deltaX = deltaX;
+    // this.deltaY = deltaY;
+    // this.startX = startX;
+    // this.startY = startY;
+    // this.debug.nativeElement.innerHTML =`
+    //   <div>Type: ${type}</div>
+    //   <div>Start X: ${Math.round((startX/this.platfom.width())*100)}%</div>
+    //   <div>Start Y: ${Math.round((startY/this.platfom.height())*100)}%</div>
+    //   <div>Current X: ${Math.round((currentX/this.platfom.width())*100)}%</div>
+    //   <div>Current Y: ${Math.round((currentY/this.platfom.height())*100)}%</div>
+    //   <div>Delta X: ${deltaX}</div>
+    //   <div>Delta Y: ${deltaY}</div>
+    //   <div>Velocity X: ${velocityX}</div>`;
+    let startXPerc = Math.round((startX / this.platfom.width()) * 100)
+    if ((startXPerc < 15 && deltaX > 100) || (startXPerc > 85 && deltaX < -100)) {
+      this.closeViewer()
+    }
+  }
+
+  private onEnd() {
+    this.isCardActive = false;
+    this.cdRef.detectChanges();
   }
 }
