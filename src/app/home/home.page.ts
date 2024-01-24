@@ -101,7 +101,6 @@ export class HomePage {
         break;
     }
     let viewer: HTMLElement = document.querySelector(".pdf-viewer")!;
-    viewer.style.display = "block";
     viewer.style.top = "3.5rem";
   }
   private checkIp(ip: string): boolean {
